@@ -1,1 +1,94 @@
-<p-button label="Check" />
+<div class="home-container">
+  <!-- Encabezado -->
+  <p-toolbar class="header">
+    <div class="p-toolbar-group-left">
+      <img src="assets/logo-avianca.png" alt="Logo Avianca" class="logo" />
+    </div>
+    <div class="p-toolbar-group-right">
+      <button pButton label="Iniciar sesión" class="p-button-text"></button>
+      <button pButton label="Registrarse" class="p-button-text"></button>
+    </div>
+  </p-toolbar>
+
+  <!-- Buscador de vuelos -->
+  <div class="search-card">
+    <p-card>
+      <h2>Busca tu vuelo</h2>
+
+      <div class="trip-type">
+        <p-radioButton
+          name="trip"
+          value="ida"
+          [(ngModel)]="tripType"
+          label="Solo ida"
+        ></p-radioButton>
+        <p-radioButton
+          name="trip"
+          value="idaVuelta"
+          [(ngModel)]="tripType"
+          label="Ida y vuelta"
+        ></p-radioButton>
+      </div>
+
+      <div class="form-grid">
+        <input
+          pInputText
+          placeholder="Origen"
+          [(ngModel)]="from"
+        />
+        <input
+          pInputText
+          placeholder="Destino"
+          [(ngModel)]="to"
+        />
+        <p-calendar
+          [(ngModel)]="departDate"
+          placeholder="Fecha de salida"
+          dateFormat="dd/mm/yy"
+        
+        ></p-calendar>
+        <p-calendar
+          *ngIf="tripType === 'idaVuelta'"
+          [(ngModel)]="returnDate"
+          placeholder="Fecha de regreso"
+          dateFormat="dd/mm/yy"
+          
+        ></p-calendar>
+        <p-inputNumber
+          [(ngModel)]="passengers"
+          [min]="1"
+          [max]="10"
+          mode="decimal"
+          placeholder="Pasajeros"
+        ></p-inputNumber>
+      </div>
+
+      <div class="search-btn">
+        <button
+          pButton
+          label="Buscar vuelos"
+          icon="pi pi-search"
+          (click)="searchFlights()"
+        ></button>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Promociones -->
+  <div class="promos">
+    <h3>Destinos destacados</h3>
+    <div class="promo-grid">
+      <p-card
+        *ngFor="let destino of destinos"
+        [header]="destino.nombre"
+        [subheader]="destino.precio"
+      >
+        <img
+          [src]="destino.imagen"
+          alt="{{ destino.nombre }}"
+          class="promo-img"
+        />
+      </p-card>
+    </div>
+  </div>
+</div>
