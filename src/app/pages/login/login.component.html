@@ -1,1 +1,47 @@
-<p>login Laura!</p>
+<div class="login-container">
+  <div class="login-box">
+    <h2>Iniciar sesión</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+      <div class="p-field">
+        <input
+          pInputText
+          id="usuario"
+          type="text"
+          formControlName="usuario"
+          placeholder="Ingrese su correo electronico"
+        />
+      </div>
+
+      <div class="p-field">
+        <p-password
+          formControlName="contrasena"
+          [feedback]="false"
+          toggleMask="true"
+          placeholder="Ingrese su contraseña"
+        ></p-password>
+      </div>
+
+      <div class="links">
+        <a href="#">¿Olvidaste tu correo o contraseña?</a>
+      </div>
+
+      <button
+        pButton
+        type="submit"
+        label="Iniciar sesión"
+        class="login-btn"
+      ></button>
+    </form>
+
+    <div class="register">
+      <a routerLink="/register">Crear una nueva cuenta</a>
+    </div>
+
+    <p class="terms">
+      Al iniciar sesión confirmas que aceptas los
+      <a href="#">Términos y condiciones</a> y la
+      <a href="#">Política de privacidad</a> de AeroLink.
+    </p>
+  </div>
+</div>
