@@ -1,67 +1,229 @@
-.home-container {
-  background: #f9f9f9;
-  min-height: 100vh;
-  font-family: 'Arial', sans-serif;
+/* ======================================= */
+/* VARIABLES DE ESTILO                     */
+/* ======================================= */
+$avianca-red: #003f7d;
+$avianca-dark: #333333;
+$avianca-checkin-blue: #008cff;
+$avianca-soft-blue: #a1e0f1;
+$avianca-light-gray: #f2f2f2;
+$avianca-green: #32a3ff;
 
-  .header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    .logo {
-      height: 45px;
+/* ======================================= */
+/* HEADER Y NAVEGACIÓN (Sticky/Compact)    */
+/* ======================================= */
+
+header {
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+
+    &.sticky-header {
+        position: fixed;
+        top: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background-color: white; // Asegura fondo blanco cuando es fijo
     }
-  }
+}
 
-  .search-card {
+.top-bar {
+    background-color: $avianca-dark; 
+    height: 35px; 
+    font-size: 0.8rem;
     display: flex;
-    justify-content: center;
-    margin: 2rem auto;
-    max-width: 900px;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1.5rem;
+}
 
-    p-card {
-      width: 100%;
-      text-align: center;
-    }
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-
-  .trip-type {
+.main-nav {
+    height: 60px; // Altura normal
+    padding: 0 5vw; 
     display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .search-btn {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-
-  .promos {
-    text-align: center;
-    padding: 2rem;
-    background: #fff;
-    h3 {
-      margin-bottom: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+    
+    &.compact {
+        height: 50px; // Altura encogida al hacer scroll
+    }
+    
+    .avianca-logo-text {
+        font-family: sans-serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: $avianca-red;
+        transition: font-size 0.3s ease-in-out;
+        
+        &.small {
+            font-size: 1.5rem; // Tamaño de logo encogido
+        }
+    }
+    
+    .nav-item {
+        font-size: 0.9rem;
+        color: $avianca-dark;
+        margin-right: 1.5rem;
+        cursor: pointer;
+        &.hidden { display: none !important; }
+    }
+    
+    .check-in-button {
+        background-color: $avianca-checkin-blue !important;
+        border: none !important;
+        padding: 0.5rem 1.5rem !important;
+        font-weight: bold;
+        border-radius: 4px;
+        margin-right: 2rem;
     }
 
-    .promo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-
-      .promo-img {
-        width: 100%;
-        border-radius: 8px;
-        object-fit: cover;
-      }
+    .lifemiles-compact-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem !important;
+        border-radius: 4px;
+        i { font-size: 0.8rem !important; }
     }
-  }
+}
+
+/* ======================================= */
+/* ÁREA DE BÚSQUEDA PRINCIPAL (FLOTANTE)   */
+/* ======================================= */
+.flight-search-area {
+    // Para compensar el espacio que toma el header fijo
+    padding-top: 30px; 
+    background: linear-gradient(to bottom, $avianca-soft-blue 0%, #ffffff 100%);
+    padding-bottom: 80px; 
+    
+    .search-container {
+        width: 90%; 
+        max-width: 1100px; 
+        position: relative; 
+        
+        // --- OPCIONES SUPERIORES (Ida/Vuelta, Hoteles) ---
+        .top-options {
+            
+            .radio-pill-group {
+                background: white;
+                border-radius: 20px;
+                padding: 0.2rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                
+                .radio-pill-item {
+                    font-size: 0.85rem;
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    
+                    &.active {
+                        background-color: $avianca-light-gray;
+                        font-weight: 600;
+                        .pi-circle-fill { color: $avianca-green; }
+                    }
+                }
+            }
+            
+            .buy-miles-link, .external-link-btn {
+                font-size: 0.9rem;
+                color: #555;
+                margin-left: 1.5rem;
+                cursor: pointer;
+            }
+        }
+        
+        // --- PASTILLA DE BÚSQUEDA GRANDE ---
+        .search-pill-box {
+            background-color: white;
+            border-radius: 10px; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); 
+            padding: 1.5rem; 
+            
+            .flight-input-grid {
+                display: grid;
+                grid-template-columns: 4fr 3fr 3fr; 
+                gap: 1.5rem; 
+                
+                .col-2, .col-3 {
+                    border-left: 1px solid $avianca-light-gray;
+                    padding-left: 1.5rem;
+                }
+            }
+
+            .col-1, .col-2, .col-3 {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between; 
+            }
+            
+            .input-cell {
+                display: flex;
+                flex-direction: column;
+                padding: 0.5rem 0;
+                position: relative;
+                
+                .disabled-field { opacity: 0.6; pointer-events: none; }
+                
+                .label-field {
+                    font-size: 0.75rem; 
+                    color: #777;
+                    font-weight: 500;
+                }
+
+                // Estilos para los componentes de PrimeNG (Eliminar bordes internos)
+                :host ::ng-deep .p-inputtext {
+                    border: none !important; 
+                    box-shadow: none !important; 
+                    padding: 0.1rem 0 !important; 
+                    font-size: 1.1rem !important;
+                    font-weight: 600;
+                    color: $avianca-dark;
+                }
+                
+                :host ::ng-deep .p-datepicker-trigger {
+                    position: absolute;
+                    right: 0.5rem;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 2;
+                }
+            }
+            
+            .cell-search {
+                .search-button-final {
+                    background-color: $avianca-dark !important; 
+                    border-color: $avianca-dark !important;
+                    height: 100%;
+                    width: 100%;
+                    font-weight: bold;
+                    border-radius: 4px;
+                    font-size: 1.1rem;
+                    padding: 1rem 0; 
+                }
+            }
+        }
+    }
+}
+
+/* ======================================= */
+/* SECCIÓN DE DESTINOS                     */
+/* ======================================= */
+.destinos-section {
+    background-color: white;
+    padding-bottom: 50px;
+    padding-top: 50px; 
+    
+    .destinos-title {
+        font-size: 1.8rem;
+        color: $avianca-red;
+        font-weight: 600;
+    }
+    
+    .destino-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .oferta-button {
+        color: $avianca-green !important;
+        font-weight: bold;
+    }
 }

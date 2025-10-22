@@ -1,94 +1,109 @@
-<div class="home-container">
-  <!-- Encabezado -->
-  <p-toolbar class="header">
-    <div class="p-toolbar-group-left">
-      <img src="assets/logo-avianca.png" alt="Logo Avianca" class="logo" />
+<header [class.sticky-header]="isSticky">
+    <div class="top-bar" *ngIf="!isSticky">
+        <span class="p-button-text text-white text-xs">
+            <i class="pi pi-globe mr-1"></i> Español | <i class="pi pi-map-marker ml-3 mr-1"></i> Colombia (COP)
+        </span>
     </div>
-    <div class="p-toolbar-group-right">
-      <button pButton label="Iniciar sesión" class="p-button-text"></button>
-      <button pButton label="Registrarse" class="p-button-text"></button>
+
+    <nav class="main-nav" [class.compact]="isSticky">
+        <div class="flex align-items-center">
+            <span class="avianca-logo-text" [class.small]="isSticky">AeroLink</span>
+
+            <div class="nav-links"  [class.hidden]="isSticky">
+                <span class="nav-item ml-5">Reservar</span>
+                <span class="nav-item">Ofertas y destinos</span>
+                <span class="nav-item">Tu reserva</span>
+                <p-button label="Check-in" styleClass="check-in-button"></p-button>
+            </div>
+        </div>
+
+        <div class="flex align-items-center">
+             <span class="nav-item" [class.hidden]="isSticky">Información y ayuda</span>
+            <span class="nav-item" [class.hidden]="isSticky">Iniciar Sesion</span>
+
+            <p-button *ngIf="isSticky" label="Cuenta Lifemiles" icon="pi pi-user" iconPos="left" styleClass="p-button-outlined p-button-secondary lifemiles-compact-btn"></p-button>
+            <p-button *ngIf="isSticky" label="Reservar" styleClass="p-button-danger check-in-button ml-3"></p-button>
+        </div>
+    </nav>
+</header>
+
+<div class="flight-search-area flex justify-content-center">
+    
+    <div class="search-container">
+        <div class="flex top-options mb-4 justify-content-between">
+            <div class="radio-pill-group flex">
+                <div class="radio-pill-item" [class.active]="tripType === 'idaVuelta'" (click)="tripType = 'idaVuelta'">
+                    <i class="pi" [class.pi-circle-fill]="tripType === 'idaVuelta'" [class.pi-circle]="tripType !== 'idaVuelta'"></i> Ida y vuelta
+                </div>
+                <div class="radio-pill-item" [class.active]="tripType === 'soloIda'" (click)="tripType = 'soloIda'">
+                    <i class="pi" [class.pi-circle-fill]="tripType === 'soloIda'" [class.pi-circle]="tripType !== 'soloIda'"></i> Solo ida
+                </div>
+            </div>
+        </div>
+
+        <div class="search-pill-box">
+            <form (ngSubmit)="searchFlights()">
+                <div class="flight-input-grid">
+                    
+                    <div class="col-1">
+                        <div class="input-cell cell-origin">
+                            <label class="label-field"><i class="pi pi-plane-departure icon-small"></i> Origen</label>
+                            <p-autoComplete [(ngModel)]="selectedFrom" name="from" [suggestions]="filteredCities" (completeMethod)="filterCities($event)" field="city" placeholder="Bogotá (BOG)" [dropdown]="false" >
+                                <ng-template pTemplate="selectedItem">
+                                    <span class="input-value">{{ selectedFrom ? selectedFrom.city + ' (' + selectedFrom.code + ')' : '' }}</span>
+                                </ng-template>
+                                <ng-template pTemplate="item" let-city>
+                                    <div>{{ city.city }} <small class="text-500">{{ city.code }}</small></div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                        <div class="input-cell cell-destination">
+                            <label class="label-field"><i class="pi pi-plane icon-small"></i> Destino</label>
+                            <p-autoComplete [(ngModel)]="selectedTo" name="to" [suggestions]="filteredCities" (completeMethod)="filterCities($event)" field="city" placeholder="Destino" [dropdown]="false">
+                                <ng-template pTemplate="selectedItem">
+                                    <span class="input-value">{{ selectedTo ? selectedTo.city + ' (' + selectedTo.code + ')' : '' }}</span>
+                                </ng-template>
+                                <ng-template pTemplate="item" let-city>
+                                    <div>{{ city.city }} <small class="text-500">{{ city.code }}</small></div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="input-cell cell-date">
+                            <label class="label-field"><i class="pi pi-calendar icon-small"></i> Ida</label>
+                            <p-datePicker [(ngModel)]="departDate" name="departDate" dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" [showOnFocus]="false"></p-datePicker>
+                        </div>
+                        <div class="input-cell cell-date" [class.disabled-field]="tripType === 'soloIda'">
+                            <label class="label-field"><i class="pi pi-calendar icon-small"></i> Vuelta</label>
+                            <p-datePicker [(ngModel)]="returnDate" name="returnDate" dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" [showOnFocus]="false" [disabled]="tripType === 'soloIda'"></p-datePicker>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="input-cell cell-pax">
+                            <label class="label-field"><i class="pi pi-user icon-small"></i> Pasajeros</label>
+                            <p-inputNumber [(ngModel)]="passengers" name="passengers" [showButtons]="true" [min]="1" [max]="9"></p-inputNumber>
+                        </div>
+                        <div class="cell-search">
+                            <p-button label="Buscar" type="submit" styleClass="search-button-final"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </p-toolbar>
+</div>
 
-  <!-- Buscador de vuelos -->
-  <div class="search-card">
-    <p-card>
-      <h2>Busca tu vuelo</h2>
-
-      <div class="trip-type">
-        <p-radioButton
-          name="trip"
-          value="ida"
-          [(ngModel)]="tripType"
-          label="Solo ida"
-        ></p-radioButton>
-        <p-radioButton
-          name="trip"
-          value="idaVuelta"
-          [(ngModel)]="tripType"
-          label="Ida y vuelta"
-        ></p-radioButton>
-      </div>
-
-      <div class="form-grid">
-        <input
-          pInputText
-          placeholder="Origen"
-          [(ngModel)]="from"
-        />
-        <input
-          pInputText
-          placeholder="Destino"
-          [(ngModel)]="to"
-        />
-        <p-calendar
-          [(ngModel)]="departDate"
-          placeholder="Fecha de salida"
-          dateFormat="dd/mm/yy"
-        
-        ></p-calendar>
-        <p-calendar
-          *ngIf="tripType === 'idaVuelta'"
-          [(ngModel)]="returnDate"
-          placeholder="Fecha de regreso"
-          dateFormat="dd/mm/yy"
-          
-        ></p-calendar>
-        <p-inputNumber
-          [(ngModel)]="passengers"
-          [min]="1"
-          [max]="10"
-          mode="decimal"
-          placeholder="Pasajeros"
-        ></p-inputNumber>
-      </div>
-
-      <div class="search-btn">
-        <button
-          pButton
-          label="Buscar vuelos"
-          icon="pi pi-search"
-          (click)="searchFlights()"
-        ></button>
-      </div>
-    </p-card>
-  </div>
-
-  <!-- Promociones -->
-  <div class="promos">
-    <h3>Destinos destacados</h3>
-    <div class="promo-grid">
-      <p-card
-        *ngFor="let destino of destinos"
-        [header]="destino.nombre"
-        [subheader]="destino.precio"
-      >
-        <img
-          [src]="destino.imagen"
-          alt="{{ destino.nombre }}"
-          class="promo-img"
-        />
-      </p-card>
+<div class="destinos-section pt-7">
+    <h3 class="text-center destinos-title">Destinos más populares</h3>
+    <div class="flex justify-content-center flex-wrap gap-4 mt-5">
+        <p-card *ngFor="let destino of destinos" [header]="destino.nombre" [subheader]="destino.precio" [style]="{ width: '250px' }" class="destino-card">
+            <img [src]="destino.imagen" [alt]="'Destino ' + destino.nombre" class="destino-img">
+            <ng-template pTemplate="footer">
+                <p-button label="Ver Ofertas" styleClass="p-button-text p-button-success oferta-button"></p-button>
+            </ng-template>
+        </p-card>
     </div>
-  </div>
 </div>
