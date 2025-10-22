@@ -1,0 +1,46 @@
+<div class="register-container">
+  <p-card class="register-card">
+    <h2>Crea tu cuenta</h2>
+    <p class="subtitle">
+      Ingresa los siguientes datos para crear una cuenta gratis dentro de Lifemiles.
+    </p>
+
+    <div class="info-box">
+      <i class="pi pi-info-circle"></i>
+      <div>
+        <strong>Verifica los datos de tu documento</strong>
+        <p>Asegúrate de que la información que ingreses coincida con el documento de viaje.</p>
+      </div>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <input pInputText formControlName="nombre" placeholder="Nombre" />
+      <input pInputText formControlName="apellido" placeholder="Apellido" />
+
+      <p-datepicker formControlName="fechaNacimiento" placeholder="Fecha de nacimiento"></p-datepicker>
+
+      <input pInputText formControlName="correo" placeholder="Correo electrónico" />
+
+      <!-- ✅ Reemplazo del antiguo Dropdown -->
+      <p-autoComplete
+  formControlName="tipoDocumento"
+  [suggestions]="filteredTiposDocumento"
+  (completeMethod)="filterTipoDocumento($event)"
+  field="name"
+  placeholder="Tipo de documento">
+</p-autoComplete>
+
+<p-autoComplete
+  formControlName="paisEmisor"
+  [suggestions]="filteredPaises"
+  (completeMethod)="filterPais($event)"
+  field="name"
+  placeholder="País emisor">
+</p-autoComplete>
+
+      <p-password formControlName="contrasena" placeholder="Contraseña"></p-password>
+
+      <button pButton type="submit" label="Crear cuenta"></button>
+    </form>
+  </p-card>
+</div>
