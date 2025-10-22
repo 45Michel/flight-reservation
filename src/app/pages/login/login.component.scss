@@ -1,0 +1,105 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f7f8fa;
+  font-family: "Helvetica", Arial, sans-serif;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #000;
+  font-weight: 600;
+}
+
+.p-field {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+input,
+.p-password input {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  font-size: 0.95rem;
+}
+
+.links {
+  text-align: left;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.links a {
+  color: #0092d1;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  width: 100%;
+  border-radius: 50px !important;
+  background: #0055a5 !important; /* 🔵 Azul principal */
+  border: none !important;
+  font-weight: 600;
+  padding: 0.8rem !important;
+  font-size: 1rem;
+  color: #fff !important; /* Texto blanco */
+  transition: background 0.3s ease; /* Efecto al pasar el mouse */
+}
+
+.login-btn:hover {
+  background: #003f7d !important; /* 🔵 Azul más oscuro en hover */
+}
+
+
+.login-btn:hover {
+  background: #333 !important;
+}
+
+.register {
+  margin-top: 1.5rem;
+}
+
+.register a {
+  color: #0092d1;
+  font-size: 0.95rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+.terms {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.terms a {
+  color: #0092d1;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
